@@ -11,7 +11,7 @@ As a first step that plugin must be added as a parameter to the build. This can 
 in the configuration view. Make sure the checkbox `This project is parameterized` is checked
 and select the `Artifact Repository Parameter` entry. 
 
-![](img/param_select.png)
+![](https://raw.githubusercontent.com/jenkinsci/artifact-repository-parameter-plugin/master/docs/img/param_select.png)
 
 ## Connection Options
 
@@ -25,7 +25,7 @@ then be verified via the `Test Connection` button.
 > repositories and then checking that at least one entry is returned. This check is
 > independent from what is configured later on in the API options.
  
-![](img/connection_options.png)
+![](https://raw.githubusercontent.com/jenkinsci/artifact-repository-parameter-plugin/master/docs/img/connection_options.png)
  
 The plugin supports the use of an HTTP proxy to access the repository server. There are two
 locations where such an HTTP proxy can be configured.
@@ -59,7 +59,7 @@ with their path. To identify the artifact it is possible to define the artifact 
 optional repository the artifact must exist in. An asterisk `*` can be used as a wildcard for the
 artifact name. For more details please refer to the REST API of the respective repository.
 
-![](img/api_options_path.png)
+![](https://raw.githubusercontent.com/jenkinsci/artifact-repository-parameter-plugin/master/docs/img/api_options_path.png)
 
 > Artifactory allows to define multiple repositories while Nexus only allows to define a single
 > repository. To harmonize the UI the plugin limits the possibility to specify a repository to one.
@@ -80,7 +80,7 @@ artifacts is as follows:
 > the commercial version. Both Artifactory OSS and Nexus OSS do not have an endpoint for the artifact's
 > version. Hence this approach was chosen to provide some basic way of retrieving a version.
 
-![](img/api_options_version.png)
+![](https://raw.githubusercontent.com/jenkinsci/artifact-repository-parameter-plugin/master/docs/img/api_options_version.png)
 
 ### Repository
 
@@ -89,7 +89,7 @@ on the target servers. To allow for more specific results one can define the rep
 type. For the latter a generic option `Other` exists that matches anything not listed as a dedicated
 option.
 
-![](img/api_options_repository.png)
+![](https://raw.githubusercontent.com/jenkinsci/artifact-repository-parameter-plugin/master/docs/img/api_options_repository.png)
 
 > Please note that this option shows a static list of repository format types that may not be available
 > in Artifactory OSS. In this case the selection will have no effect and be ignored.
@@ -98,12 +98,12 @@ option.
 
 This section allows to customize the look of the parameters in the  `Build with Parameters` view.
 
-![](img/display_options.png)
+![](https://raw.githubusercontent.com/jenkinsci/artifact-repository-parameter-plugin/master/docs/img/display_options.png)
 
 `Display Style` allows to customize how entries are displayed. Following is a screenshot of all 
 possible representations of the same plugin.
 
-![](img/display_styles.png)
+![](https://raw.githubusercontent.com/jenkinsci/artifact-repository-parameter-plugin/master/docs/img/display_styles.png)
 
 The `Results Count` allows to limit the number of results displayed in the UI.
 
@@ -135,7 +135,7 @@ decide what information is required for the task.
 > Since this may contain information that one does not want to make visible to whoever is starting 
 > a build it is possible to hide the textarea (see display options above).
 
-![](img/build_view.png)
+![](https://raw.githubusercontent.com/jenkinsci/artifact-repository-parameter-plugin/master/docs/img/build_view.png)
 
 
 [link0]: https://docs.oracle.com/javase/tutorial/essential/regex/groups.html

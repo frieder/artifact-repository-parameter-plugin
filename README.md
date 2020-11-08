@@ -1,7 +1,7 @@
 # Artifact Repository Parameter Plugin
 
 The goal of the plugin is to make certain information of an artifact repository available as
-[Jenkins][link2] build parameter. Currently the following endpoints are supported.
+[Jenkins](https://www.jenkins.io) build parameter. Currently the following endpoints are supported.
 
 * __Path__ - Display all deployed artifacts.
 * __Version__ - Display all available versions of an artifact.
@@ -15,31 +15,17 @@ The following artifact repositories were tested during development.
 
 ## Configuration
 
-Detailed instructions how to configure the plugin can be found in [docs/Config.md][link0].
+Detailed instructions how to configure the plugin can be found in [docs/config.md](docs/config.md).
+
+## Contributing
+
+If you want to contribute to this project please have a look at [CONTRIBUTING.md](CONTRIBUTING.md)
+first.
 
 ## Known Limitations
 
-### Blue Ocean
+An overview of known limitations of this plugin can be found in [docs/limitations.md](docs/limitations.md).
 
-The current version of this plugin does not work with Blue Ocean.
+## 3rd Party Code Recognition
 
-### Internet Explorer
-
-The current version of this plugin does not work with any version of Internet Explorer. Use Chrome,
-Firefox or Edge instead.
-
-## Similar plugins
-
-Another plugin with similar features is
-[Maven Artifact ChoiceListProvider](https://plugins.jenkins.io/maven-artifact-choicelistprovider/).
-For more details please refer to the plugin's overview page.
-
-## Development
-
-To build the plugin please refer to [docs/Build.md][link1].
-
-
-
-[link0]: ./docs/Config.md
-[link1]: ./docs/Build.md
-[link2]: https://www.jenkins.io/
+This project uses code from 3rd parties. Refer to [COPYING.md](COPYING.md) for detailed information.

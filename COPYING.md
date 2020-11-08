@@ -1,0 +1,5 @@
+# 3rd Party Code Recognition
+
+This project includes an implementation of the Alphanum algorithm by David Koelle, available at
+[http://www.davekoelle.com/alphanum.html](http://www.davekoelle.com/alphanum.html), which is 
+licensed under the MIT license.
