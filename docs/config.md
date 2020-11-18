@@ -11,13 +11,13 @@ As a first step that plugin must be added as a parameter to the build. This can 
 in the configuration view. Make sure the checkbox `This project is parameterized` is checked
 and select the `Artifact Repository Parameter` entry. 
 
-![](https://raw.githubusercontent.com/jenkinsci/artifact-repository-parameter-plugin/master/docs/img/param_select.png)
+![](https://github.com/jenkinsci/artifact-repository-parameter-plugin/raw/master/docs/img/param_select.png)
 
 ## Connection Options
 
 The next step is to configure the connection to the artifact repository. For this define the
 type of the target repository along with the URL and access credentials. The plugin currently
-only supports credentials of type `Username with password`. Currently no support of
+supports only credentials of type `Username with password`. At the moment no support for
 access tokens is planned. Pull requests are welcome though. The connection to the server can
 then be verified via the `Test Connection` button.
 
@@ -59,17 +59,18 @@ with their path. To identify the artifact it is possible to define the artifact 
 optional repository the artifact must exist in. An asterisk `*` can be used as a wildcard for the
 artifact name. For more details please refer to the REST API of the respective repository.
 
-![](https://raw.githubusercontent.com/jenkinsci/artifact-repository-parameter-plugin/master/docs/img/api_options_path.png)
+![](https://github.com/jenkinsci/artifact-repository-parameter-plugin/raw/master/docs/img/api_options_path.png)
 
 > Artifactory allows to define multiple repositories while Nexus only allows to define a single
-> repository. To harmonize the UI the plugin limits the possibility to specify a repository to one.
+> repository. To harmonize the UI the plugin limits the number of possible repositories to one.
 
 ### Version
 
 The option `Artifact Version` allows to display the version of an artifact. Technically it is based
 on the path option but provides the possibility to define a `Version Regex` used to extract the
-artifact's version from its path. This regex is using [Capturing Groups][link0]  to identify the 
-version based on the artifact's full path. An example regex to get the version of Maven-based 
+artifact's version from its path. This regex is using 
+[Capturing Groups](https://docs.oracle.com/javase/tutorial/essential/regex/groups.html)  to identify 
+the version based on the artifact's full path. An example regex to get the version of Maven-based 
 artifacts is as follows:
 
 ```
@@ -80,7 +81,7 @@ artifacts is as follows:
 > the commercial version. Both Artifactory OSS and Nexus OSS do not have an endpoint for the artifact's
 > version. Hence this approach was chosen to provide some basic way of retrieving a version.
 
-![](https://raw.githubusercontent.com/jenkinsci/artifact-repository-parameter-plugin/master/docs/img/api_options_version.png)
+![](https://github.com/jenkinsci/artifact-repository-parameter-plugin/raw/master/docs/img/api_options_version.png)
 
 ### Repository
 
@@ -89,7 +90,7 @@ on the target servers. To allow for more specific results one can define the rep
 type. For the latter a generic option `Other` exists that matches anything not listed as a dedicated
 option.
 
-![](https://raw.githubusercontent.com/jenkinsci/artifact-repository-parameter-plugin/master/docs/img/api_options_repository.png)
+![](https://github.com/jenkinsci/artifact-repository-parameter-plugin/raw/master/docs/img/api_options_repository.png)
 
 > Please note that this option shows a static list of repository format types that may not be available
 > in Artifactory OSS. In this case the selection will have no effect and be ignored.
@@ -98,14 +99,17 @@ option.
 
 This section allows to customize the look of the parameters in the  `Build with Parameters` view.
 
-![](https://raw.githubusercontent.com/jenkinsci/artifact-repository-parameter-plugin/master/docs/img/display_options.png)
+![](https://github.com/jenkinsci/artifact-repository-parameter-plugin/raw/master/docs/img/display_options.png)
 
 `Display Style` allows to customize how entries are displayed. Following is a screenshot of all 
 possible representations of the same plugin.
 
-![](https://raw.githubusercontent.com/jenkinsci/artifact-repository-parameter-plugin/master/docs/img/display_styles.png)
+![](https://github.com/jenkinsci/artifact-repository-parameter-plugin/raw/master/docs/img/display_styles.png)
 
 The `Results Count` allows to limit the number of results displayed in the UI.
+
+`Select Entry` allows to define whether or not an entry should get pre-selected when opening the
+`Build with Parameters` view. Currently the selection of the first and the last entry are supported.
 
 The `Filter Regex` is another possibility to filter the result list before displaying the entries
 to the end user. This option was implemented due to the fact that the filter options available in 
@@ -113,12 +117,10 @@ the REST APIs of the artifact repositories are quite basic and do not allow for 
 filters. Any entry to be displayed must match the regex. Hence a default value `.+` is used to
 display all entries out of the box. If the configuration field is left empty an implicit `.+` is used.
 
-`Sort Results` simply sorts the results alphabetically based on the selected order.
+`Sort Results` allows to define the order in which the entries are sorted. The sorting is done with
+natural order in mind meaning `test-package-1.2.0.zip` comes before `test-package-1.10.0.zip`.
 
 `Hide Textarea` allows to hide the textarea displayed below the selection options.
-
-`Select Entry` allows to define whether or not an entry should get pre-selected when opening the
-`Build with Parameters` view. Currently the selection of the first and the last entry are supported.
 
 ## Build View
 
@@ -132,10 +134,7 @@ The content of this textarea is the actual parameter value that will be made ava
 pipline script. It is then up to the pipeline creator to process the information accordingly and
 decide what information is required for the task. 
 
+![](https://github.com/jenkinsci/artifact-repository-parameter-plugin/raw/master/docs/img/build_view.png)
+
 > Since this may contain information that one does not want to make visible to whoever is starting 
 > a build it is possible to hide the textarea (see display options above).
-
-![](https://raw.githubusercontent.com/jenkinsci/artifact-repository-parameter-plugin/master/docs/img/build_view.png)
-
-
-[link0]: https://docs.oracle.com/javase/tutorial/essential/regex/groups.html

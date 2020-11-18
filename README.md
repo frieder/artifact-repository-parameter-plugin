@@ -1,13 +1,19 @@
 # Artifact Repository Parameter Plugin
 
-The goal of the plugin is to make certain information of an artifact repository available as
-[Jenkins](https://www.jenkins.io) build parameter. Currently the following endpoints are supported.
+[![Build Status](https://ci.jenkins.io/job/Plugins/job/artifact-repository-parameter-plugin/job/master/badge/icon)](https://ci.jenkins.io/blue/organizations/jenkins/Plugins%2Fartifact-repository-parameter-plugin/activity)
+[![Open Issues](https://img.shields.io/github/issues-raw/jenkinsci/artifact-repository-parameter-plugin)](https://github.com/jenkinsci/artifact-repository-parameter-plugin/issues)
+[![Jenkins Plugin](https://img.shields.io/jenkins/plugin/v/artifact-repository-parameter.svg?label=latest%20version)](https://plugins.jenkins.io/artifact-repository-parameter)
+[![Contributors](https://img.shields.io/github/contributors/jenkinsci/artifact-repository-parameter-plugin.svg)](https://github.com/jenkinsci/artifact-repository-parameter-plugin/graphs/contributors)
+
+The goal of the plugin is to make certain information of an artifact repository available as a
+[Jenkins](https://www.jenkins.io) build parameter to pipeline builds. The following endpoints are 
+supported.
 
 * __Path__ - Display all deployed artifacts.
 * __Version__ - Display all available versions of an artifact.
 * __Repositories__ - A list of all available repositories.
 
-The following artifact repositories were tested during development.
+The following artifact repositories have been tested during development.
 
 * __Sonatype Nexus 3 OSS__
 * __JFrog Artifactory 6 Pro__
