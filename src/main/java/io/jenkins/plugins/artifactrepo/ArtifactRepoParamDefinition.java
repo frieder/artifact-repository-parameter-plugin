@@ -9,8 +9,8 @@ import hudson.model.StringParameterValue;
 import io.jenkins.plugins.artifactrepo.connectors.Connector;
 import io.jenkins.plugins.artifactrepo.helper.AlphanumComparator;
 import io.jenkins.plugins.artifactrepo.helper.Constants.ParameterType;
-import io.jenkins.plugins.artifactrepo.model.ArtifactRepoParamProxy;
 import io.jenkins.plugins.artifactrepo.model.FormatType;
+import io.jenkins.plugins.artifactrepo.model.HttpProxy;
 import io.jenkins.plugins.artifactrepo.model.RepoType;
 import java.util.*;
 import java.util.Map.Entry;
@@ -37,7 +37,7 @@ public class ArtifactRepoParamDefinition extends ParameterDefinition {
   // connection options
   private final String serverType;
   private final String serverUrl;
-  private final ArtifactRepoParamProxy proxy;
+  private final HttpProxy proxy;
   private final String credentialsId;
   private final boolean ignoreCertificate;
   // api options
@@ -100,7 +100,7 @@ public class ArtifactRepoParamDefinition extends ParameterDefinition {
       String serverUrl,
       String credentialsId,
       boolean ignoreCertificate,
-      ArtifactRepoParamProxy proxy) {
+      HttpProxy proxy) {
     this(
         "Connection Validation",
         null,
@@ -131,7 +131,7 @@ public class ArtifactRepoParamDefinition extends ParameterDefinition {
       String serverUrl,
       String credentialsId,
       boolean ignoreCertificate,
-      ArtifactRepoParamProxy proxy,
+      HttpProxy proxy,
       String paramType,
       String artifactName,
       String repoName,
@@ -153,7 +153,7 @@ public class ArtifactRepoParamDefinition extends ParameterDefinition {
     this.serverUrl = Optional.ofNullable(serverUrl).map(String::trim).orElse("");
     this.credentialsId = Optional.ofNullable(credentialsId).map(String::trim).orElse("");
     this.ignoreCertificate = ignoreCertificate;
-    this.proxy = Optional.ofNullable(proxy).orElse(ArtifactRepoParamProxy.DISABLED);
+    this.proxy = Optional.ofNullable(proxy).orElse(HttpProxy.DISABLED);
     // api options
     this.paramType = Optional.ofNullable(paramType).map(String::trim).orElse("");
     this.artifactName = Optional.ofNullable(artifactName).map(String::trim).orElse("");
@@ -180,7 +180,7 @@ public class ArtifactRepoParamDefinition extends ParameterDefinition {
 
   // needed since reflection and Lombok getter generation do not work well together
   public String getProxyCredentialsId() {
-    return proxy.getProxyCredentialsId();
+    return proxy.getCredentialsId();
   }
 
   @Override

@@ -4,7 +4,7 @@ import io.jenkins.plugins.artifactrepo.ArtifactRepoParamDefinition;
 import io.jenkins.plugins.artifactrepo.Messages;
 import io.jenkins.plugins.artifactrepo.connectors.Connector;
 import io.jenkins.plugins.artifactrepo.helper.Constants.ParameterType;
-import io.jenkins.plugins.artifactrepo.helper.PluginHelper;
+import io.jenkins.plugins.artifactrepo.helper.HttpHelper;
 import io.jenkins.plugins.artifactrepo.model.HttpResponse;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -32,7 +32,7 @@ public class Artifactory implements Connector {
   public Artifactory(@Nonnull ArtifactRepoParamDefinition definition) {
     this.definition = definition;
     httpBuilder =
-        PluginHelper.getBuilder(
+        HttpHelper.getBuilder(
             definition.getCredentialsId(), definition.getProxy(), definition.isIgnoreCertificate());
   }
 
@@ -57,7 +57,7 @@ public class Artifactory implements Connector {
 
     HttpResponse response = getArtifactsResponse();
     Validate.isTrue(
-        response.getRc() == HttpStatus.SC_OK, Messages.log_failedRequest(response.getRc()));
+        response.getRc() == HttpStatus.SC_OK, Messages.log_requestFailed(response.getRc()));
 
     JSONObject root = new JSONObject(response.getPayload());
     JSONArray array = root.getJSONArray("results");
@@ -93,7 +93,7 @@ public class Artifactory implements Connector {
       url = url + "&repos=" + definition.getRepoName();
     }
 
-    return PluginHelper.get(url, httpBuilder);
+    return HttpHelper.get(url, httpBuilder);
   }
 
   private Optional<String> extractVersion(@Nonnull String path, @Nonnull Pattern pattern) {
@@ -109,7 +109,7 @@ public class Artifactory implements Connector {
 
     HttpResponse response = getRepositoriesResponse();
     Validate.isTrue(
-        response.getRc() == HttpStatus.SC_OK, Messages.log_failedRequest(response.getRc()));
+        response.getRc() == HttpStatus.SC_OK, Messages.log_requestFailed(response.getRc()));
 
     JSONArray root = new JSONArray(response.getPayload());
     for (int i = 0; i < root.length(); i++) {
@@ -131,7 +131,7 @@ public class Artifactory implements Connector {
   }
 
   private HttpResponse getRepositoriesResponse() {
-    return PluginHelper.get(definition.getServerUrl() + "/api/repositories", httpBuilder);
+    return HttpHelper.get(definition.getServerUrl() + "/api/repositories", httpBuilder);
   }
 
   private boolean isValidRepoType(@Nonnull String value) {

@@ -5,18 +5,9 @@ import io.jenkins.plugins.artifactrepo.ArtifactRepoParamDefinition;
 import io.jenkins.plugins.artifactrepo.Messages;
 import io.jenkins.plugins.artifactrepo.connectors.Connector;
 import io.jenkins.plugins.artifactrepo.helper.Constants.ParameterType;
+import io.jenkins.plugins.artifactrepo.helper.HttpHelper;
 import io.jenkins.plugins.artifactrepo.helper.PluginHelper;
 import io.jenkins.plugins.artifactrepo.model.HttpResponse;
-import java.net.MalformedURLException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
-import javax.annotation.Nonnull;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
@@ -32,6 +23,17 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.annotation.Nonnull;
+import java.net.MalformedURLException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
+
 /** A class that provides access to the supported REST endpoints of Sonatype Nexus. */
 public class Nexus implements Connector {
 
@@ -43,7 +45,7 @@ public class Nexus implements Connector {
   public Nexus(@Nonnull ArtifactRepoParamDefinition definition) {
     this.definition = definition;
     httpBuilder =
-        PluginHelper.getBuilder(
+        HttpHelper.getBuilder(
             definition.getCredentialsId(), definition.getProxy(), definition.isIgnoreCertificate());
   }
 
@@ -58,7 +60,8 @@ public class Nexus implements Connector {
       case ParameterType.TEST:
         return getRepositoryResult();
       default:
-        throw new IllegalArgumentException("Invalid parameter type: " + definition.getParamType());
+        throw new IllegalArgumentException(
+            Messages.log_invalidParameter(definition.getParamType()));
     }
   }
 
@@ -67,8 +70,7 @@ public class Nexus implements Connector {
     if (response.getRc() == HttpStatus.SC_OK) {
       return new HashMap<>(parseArtifactsPayload(response.getPayload()));
     }
-
-    throw new IllegalArgumentException("HTTP response code is invalid: " + response.getRc());
+    throw new IllegalArgumentException(Messages.log_requestFailed(response.getRc()));
   }
 
   private Map<String, String> getVersionResult() {
@@ -90,7 +92,7 @@ public class Nexus implements Connector {
     HttpResponse response = getRepositoriesResponse();
 
     Validate.isTrue(
-        response.getRc() == HttpStatus.SC_OK, Messages.log_failedRequest(response.getRc()));
+        response.getRc() == HttpStatus.SC_OK, Messages.log_requestFailed(response.getRc()));
 
     JSONArray root = new JSONArray(response.getPayload());
     for (int i = 0; i < root.length(); i++) {
@@ -120,11 +122,11 @@ public class Nexus implements Connector {
       url = url + "&continuationToken=" + continuationToken;
     }
 
-    return PluginHelper.get(url, httpBuilder, getPreemptiveAuthContext());
+    return HttpHelper.get(url, httpBuilder, getPreemptiveAuthContext());
   }
 
   private HttpResponse getRepositoriesResponse() {
-    return PluginHelper.get(
+    return HttpHelper.get(
         definition.getServerUrl() + "/service/rest/v1/repositories",
         httpBuilder,
         getPreemptiveAuthContext());
@@ -142,7 +144,7 @@ public class Nexus implements Connector {
       if (StringUtils.isNotBlank(token)) {
         HttpResponse response = getArtifactsResponse(token);
         Validate.isTrue(
-            response.getRc() == HttpStatus.SC_OK, Messages.log_failedRequest(response.getRc()));
+            response.getRc() == HttpStatus.SC_OK, Messages.log_requestFailed(response.getRc()));
         result.putAll(parseArtifactsPayload(response.getPayload()));
       }
     }
@@ -197,7 +199,7 @@ public class Nexus implements Connector {
               AuthCache authCache = new BasicAuthCache();
               try {
                 authCache.put(
-                    PluginHelper.getHttpHostFromUrl(definition.getServerUrl()), new BasicScheme());
+                    HttpHelper.getHttpHostFromUrl(definition.getServerUrl()), new BasicScheme());
               } catch (MalformedURLException e) {
                 throw new IllegalArgumentException(
                     Messages.log_invalidUrl(definition.getServerUrl()), e);

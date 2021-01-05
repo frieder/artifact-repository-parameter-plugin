@@ -12,7 +12,8 @@ import hudson.util.ListBoxModel;
 import io.jenkins.plugins.artifactrepo.connectors.Connector;
 import io.jenkins.plugins.artifactrepo.connectors.impl.Artifactory;
 import io.jenkins.plugins.artifactrepo.helper.Constants;
-import io.jenkins.plugins.artifactrepo.model.ArtifactRepoParamProxy;
+import io.jenkins.plugins.artifactrepo.helper.PluginHelper;
+import io.jenkins.plugins.artifactrepo.model.HttpProxy;
 import java.net.URI;
 import java.util.Collections;
 import java.util.Map;
@@ -144,8 +145,7 @@ public class ArtifactRepoParamDescriptor extends ParameterDescriptor {
       return FormValidation.error(Messages.formError_invalidParameter());
     }
 
-    ArtifactRepoParamProxy proxy =
-        new ArtifactRepoParamProxy(proxyProtocol, proxyHost, proxyPort, proxyCredentialsId);
+    HttpProxy proxy = new HttpProxy(proxyProtocol, proxyHost, proxyPort, proxyCredentialsId);
     ArtifactRepoParamDefinition dummyDefinition =
         new ArtifactRepoParamDefinition(
             serverType, serverUrl, credentialsId, ignoreCertificate, proxy);
@@ -163,32 +163,12 @@ public class ArtifactRepoParamDescriptor extends ParameterDescriptor {
 
   public ListBoxModel doFillCredentialsIdItems(
       @AncestorInPath Item item, @QueryParameter String credentialsId) {
-    return fillCredentials(item, credentialsId);
+    return PluginHelper.getCredentialsDropdown(item, credentialsId);
   }
 
   public ListBoxModel doFillProxyCredentialsIdItems(
       @AncestorInPath Item item, @QueryParameter String credentialsId) {
-    return fillCredentials(item, credentialsId);
+    return PluginHelper.getCredentialsDropdown(item, credentialsId);
   }
 
-  private ListBoxModel fillCredentials(Item item, String credentialsId) {
-    StandardListBoxModel result = new StandardListBoxModel();
-
-    if (item == null && !Jenkins.get().hasPermission(Jenkins.ADMINISTER)
-        || item != null
-            && (!item.hasPermission(Item.EXTENDED_READ)
-                || !item.hasPermission(CredentialsProvider.USE_ITEM))) {
-      return result.includeCurrentValue(credentialsId);
-    }
-
-    return result
-        .includeEmptyValue()
-        .includeMatchingAs(
-            ACL.SYSTEM,
-            item,
-            StandardUsernameCredentials.class,
-            Collections.emptyList(),
-            CredentialsMatchers.always())
-        .includeCurrentValue(credentialsId);
-  }
 }
